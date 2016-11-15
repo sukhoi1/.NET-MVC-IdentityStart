@@ -2,3 +2,5 @@ packages/
 IdentityStart/obj/
 IdentityStart/bin/
 IdentityStart/.vs/
+.vs/IdentityStart/v14/.suo
+IdentityStart/IdentityStart.csproj.user
