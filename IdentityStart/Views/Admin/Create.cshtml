@@ -11,12 +11,20 @@
 <p><b>Example 1:</b> Add "test" user, "test" email, "test" password. A validation error message will be displayed.</p>
 <p><b>Example 2:</b> Add "test" user, "test" email, "test11" password and see a validation message.</p>
 <p>
-    <b>Example 3:</b> Set web.config app setting <b>enableStrictPasswordValidation="true"</b> to enable strict password validation. Current value is:
+    <b>Example 3 Psw:</b> Set web.config app setting <b>enableStrictPasswordValidation="true"</b> to enable strict password validation. Current value is:
     <b>@WebConfigurationManager.AppSettings["enableStrictPasswordValidation"]</b>.
 </p>
 <p>
-    <b>Example 4:</b> Set web.config app setting <b>enableCustomPasswordValidation="true"</b> to disable "12345" password sequences. Current value is:
+    <b>Example 4 Psw:</b> Set web.config app setting <b>enableCustomPasswordValidation="true"</b> to disable "12345" password sequences. Current value is:
     <b>@WebConfigurationManager.AppSettings["enableCustomPasswordValidation"]</b>.
+</p>
+<p>
+    <b>Example 5 Usr:</b> Set web.config app setting <b>enableUserValidation="true"</b> to enable user validation. Current value is:
+    <b>@WebConfigurationManager.AppSettings["enableUserValidation"]</b>.
+</p>
+<p>
+    <b>Example 6 Usr:</b> Set web.config app setting <b>enableCustomUserValidation="true"</b> to enable custom user validation. Current value is:
+    <b>@WebConfigurationManager.AppSettings["enableCustomUserValidation"]</b>.
 </p>
 
 @Html.ValidationSummary(false)

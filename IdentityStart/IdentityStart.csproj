@@ -183,6 +183,7 @@
     <Compile Include="Infrastructure\AppUserManager.cs" />
     <Compile Include="Infrastructure\IdentityDbInit.cs" />
     <Compile Include="Infrastructure\PasswordValidatorOverriden.cs" />
+    <Compile Include="Infrastructure\UserValidatorOverridden.cs" />
     <Compile Include="Models\AppUser.cs" />
     <Compile Include="Models\CreateModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

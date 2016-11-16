@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
+using IdentityStart.Infrastructure;
 
 namespace IdentityStart.Infrastructure
 {
@@ -18,30 +19,42 @@ namespace IdentityStart.Infrastructure
             IOwinContext context)
         {
             var db = context.Get<AppIdentityDbContext>();
-            var manager = new AppUserManager(new UserStore<AppUser>(db));
+            var userManager = new AppUserManager(new UserStore<AppUser>(db));
             // A better way to get UserManager from OWIN:
             // var manager = context.GetUserManager<AppUserManager>();
 
-            var validator = new PasswordValidator
-            {
-                RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true
-            };
-
             if (bool.Parse(WebConfigurationManager.AppSettings["enableStrictPasswordValidation"]))
             {
-                manager.PasswordValidator = validator;
+                userManager.PasswordValidator = new PasswordValidator
+                {
+                    RequiredLength = 6,
+                    RequireNonLetterOrDigit = true,
+                    RequireDigit = true,
+                    RequireLowercase = true,
+                    RequireUppercase = true
+                };
             }
 
             if (bool.Parse(WebConfigurationManager.AppSettings["enableCustomPasswordValidation"]))
             {
-                manager.PasswordValidator = new PasswordValidatorOverriden("12345", validator);
+                userManager.PasswordValidator = new PasswordValidatorOverriden("12345", userManager);
             }
 
-            return manager;
+            if (bool.Parse(WebConfigurationManager.AppSettings["enableUserValidation"]))
+            {
+                userManager.UserValidator = new UserValidator<AppUser>(userManager)
+                {
+                    AllowOnlyAlphanumericUserNames = true,
+                    RequireUniqueEmail = true
+                };
+            }
+
+            if (bool.Parse(WebConfigurationManager.AppSettings["enableCustomUserValidation"]))
+            {
+                userManager.UserValidator = new UserValidatorOverridden("@example.com", userManager);
+            }
+
+            return userManager;
         }
     }
 }

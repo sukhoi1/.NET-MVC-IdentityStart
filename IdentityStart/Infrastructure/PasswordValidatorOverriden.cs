@@ -6,14 +6,18 @@ namespace IdentityStart.Infrastructure
 {
     public class PasswordValidatorOverriden : PasswordValidator
     {
-        public PasswordValidatorOverriden(string contains, PasswordValidator passwordValidator) : base()
+        public PasswordValidatorOverriden(string contains, AppUserManager userManager)
         {
             this.Contains = contains;
-            this.RequireDigit = passwordValidator.RequireDigit;
-            this.RequireLowercase = passwordValidator.RequireLowercase;
-            this.RequireNonLetterOrDigit = passwordValidator.RequireNonLetterOrDigit;
-            this.RequireUppercase = passwordValidator.RequireUppercase;
-            this.RequiredLength = passwordValidator.RequiredLength;
+            if (userManager != null && userManager.PasswordValidator != null)
+            {
+                var passwordValidator = (PasswordValidator)userManager.PasswordValidator;
+                RequireDigit = passwordValidator.RequireDigit;
+                RequireLowercase = passwordValidator.RequireLowercase;
+                RequireNonLetterOrDigit = passwordValidator.RequireNonLetterOrDigit;
+                RequireUppercase = passwordValidator.RequireUppercase;
+                RequiredLength = passwordValidator.RequiredLength;
+            }
         }
 
         public string Contains { get; set; }
