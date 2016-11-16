@@ -1,14 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation.Attributes;
+using IdentityStart.Infrastructure;
 
 namespace IdentityStart.Models
 {
+    [Validator(typeof(FluentCreateModelValidator))]
     public class CreateModel
     {
-        [Required]
         public string Name { get; set; }
-        [Required]
         public string Email { get; set; }
-        [Required]
         public string Password { get; set; }
     }
 }
