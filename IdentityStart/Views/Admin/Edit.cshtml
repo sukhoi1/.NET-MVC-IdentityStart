@@ -3,12 +3,16 @@
 
 @{ ViewBag.Title = "Edit"; }
 
-@Html.ValidationSummary(false)
 <h2>Edit user</h2>
 
+@Html.ValidationSummary(false)
+@Html.Partial("Config")
+
 <div class="form-group">
-    <label>Name</label>
+    <label>Id</label>
     <p class="form-control-static">@Model.Id</p>
+    <label>Name</label>
+    <p class="form-control-static">@Model.Name</p>
 </div>
 
 @using (Html.BeginForm())

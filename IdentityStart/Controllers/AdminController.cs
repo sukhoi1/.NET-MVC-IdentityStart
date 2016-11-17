@@ -80,6 +80,63 @@ namespace IdentityStart.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<ActionResult> Edit(CreateModel viewModel)
+        {
+            AppUser user = null;
+            if (viewModel != null)
+            {
+                 user = await UserManager.FindByIdAsync(viewModel.Id);
+            }
+            
+            if (user != null)
+            {
+                if (ModelState.IsValid)
+                {
+                    user.Email = viewModel.Email;
+                    IdentityResult validEmail = await UserManager.UserValidator.ValidateAsync(user);
+                    if (!validEmail.Succeeded)
+                    {
+                        AddErrorsFromResult(validEmail);
+                    }
+
+                    IdentityResult validPass = null;
+                    if (!string.IsNullOrWhiteSpace(viewModel.Password))
+                    {
+                        validPass = await UserManager.PasswordValidator.ValidateAsync(viewModel.Password);
+                        if (validPass.Succeeded)
+                        {
+                            user.PasswordHash = UserManager.PasswordHasher.HashPassword(viewModel.Password);
+                        }
+                        else
+                        {
+                            AddErrorsFromResult(validEmail);
+                        }
+                    }
+
+                    // validPass == null: a bit strange logic, needs to be tested thoroughly
+                    if (validEmail.Succeeded && (validPass == null || !string.IsNullOrWhiteSpace(viewModel.Password) && validPass.Succeeded))
+                    {
+                        IdentityResult result = await UserManager.UpdateAsync(user);
+                        if (result.Succeeded)
+                        {
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            AddErrorsFromResult(validEmail);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "User Not Found");
+            }
+
+            return View(viewModel);
+        }
+
         private void AddErrorsFromResult(IdentityResult result)
         {
             foreach (string error in result.Errors)

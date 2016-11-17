@@ -1,0 +1,34 @@
+﻿@using System.Web.Configuration
+
+@{
+    ViewBag.Title = "Create User";
+    var enableStrictPasswordValidation = WebConfigurationManager.AppSettings["enableStrictPasswordValidation"] == "true";
+    var enableCustomPasswordValidation = WebConfigurationManager.AppSettings["enableCustomPasswordValidation"] == "true";
+    var enableUserValidation = WebConfigurationManager.AppSettings["enableUserValidation"] == "true";
+    var enableCustomUserValidation = WebConfigurationManager.AppSettings["enableCustomUserValidation"] == "true";
+}
+
+<p><b>Example 1:</b> Add "test" user, "test" email, "test" password. A validation error message will be displayed.</p>
+<p><b>Example 2:</b> Add "test" user, "test" email, "test11" password and see a validation message.</p>
+<p>
+    <b>Example 3 Psw:</b> Set web.config app setting <b>enableStrictPasswordValidation="true"</b> to enable strict password validation. Current value is:
+    <b>@enableStrictPasswordValidation</b>.
+</p>
+<p>
+    <b>Example 4 Psw:</b> Set web.config app setting <b>enableCustomPasswordValidation="true"</b> to disable "12345" password sequences. Current value is:
+    <b>@enableCustomPasswordValidation</b>.
+</p>
+<p>
+    <b>Example 5 Usr:</b> Set web.config app setting <b>enableUserValidation="true"</b> to enable user validation. Current value is:
+    <b>@enableUserValidation</b>.
+</p>
+<p>
+    <b>Example 6 Usr:</b> Set web.config app setting <b>enableCustomUserValidation="true"</b> to enable custom user validation. Current value is:
+    <b>@enableCustomUserValidation</b>.
+</p>
+<p>
+    <b>Example 7 FluentValidation:</b> Set web.config all app settings to <b>false</b>. All settings are set to false:
+    <b>
+        @(!(enableStrictPasswordValidation && enableCustomPasswordValidation && enableUserValidation && enableCustomUserValidation))
+    </b>.
+</p>
