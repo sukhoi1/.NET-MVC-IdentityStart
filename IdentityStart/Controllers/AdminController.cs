@@ -67,6 +67,19 @@ namespace IdentityStart.Controllers
             }
         }
 
+        public async Task<ActionResult> Edit(string id)
+        {
+            AppUser user = await UserManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                return View(new CreateModel() { Id = user.Id, Email = user.Email, Name = user.UserName });
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
         private void AddErrorsFromResult(IdentityResult result)
         {
             foreach (string error in result.Errors)
